@@ -1,0 +1,36 @@
+volumes:
+  prometheus-data:
+    driver: local
+
+networks:
+  monitoring:
+    name: monitoring
+    driver: bridge
+    
+services:
+  prometeus:
+    image: prom/prometheus
+    container_name: prometeus
+    ports:
+      - 9099:9090
+    volumes:
+      - /etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - monitoring
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    #network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    networks:
+      - monitoring

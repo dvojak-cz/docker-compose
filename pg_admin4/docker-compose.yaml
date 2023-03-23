@@ -1,0 +1,21 @@
+volumes:
+  pgadmin-data:
+    driver: local
+
+networks:
+  db-net:
+    name: db-net
+    driver: bridge
+
+services:
+  pg-admin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: trojakjan24@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: jan
+    ports:
+      - 9111:80/tcp
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - db-net
