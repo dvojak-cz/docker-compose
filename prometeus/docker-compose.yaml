@@ -34,3 +34,4 @@ services:
       - '/:/host:ro,rslave'
     networks:
       - monitoring
+    privileged: true
