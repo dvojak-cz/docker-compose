@@ -19,6 +19,7 @@ services:
     restart: unless-stopped
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=3h"
     networks:
       - monitoring
 
